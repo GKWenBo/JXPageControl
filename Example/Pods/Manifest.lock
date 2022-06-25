@@ -1,12 +1,12 @@
 PODS:
-  - JXPageControl (0.1.0):
-    - JXPageControl/Common (= 0.1.0)
-    - JXPageControl/Jump (= 0.1.0)
-    - JXPageControl/Transform (= 0.1.0)
-  - JXPageControl/Common (0.1.0)
-  - JXPageControl/Jump (0.1.0):
+  - JXPageControl (0.1.5):
+    - JXPageControl/Common (= 0.1.5)
+    - JXPageControl/Jump (= 0.1.5)
+    - JXPageControl/Transform (= 0.1.5)
+  - JXPageControl/Common (0.1.5)
+  - JXPageControl/Jump (0.1.5):
     - JXPageControl/Common
-  - JXPageControl/Transform (0.1.0):
+  - JXPageControl/Transform (0.1.5):
     - JXPageControl/Common
 
 DEPENDENCIES:
@@ -17,8 +17,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  JXPageControl: 4371b14a59db68ac8faeb6189139789355bec289
+  JXPageControl: e9487b39e2e58fc17790833214f3b8e935bef98b
 
 PODFILE CHECKSUM: fe75018273d3f91d83be98cbb7f354c35d3b9731
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.11.2

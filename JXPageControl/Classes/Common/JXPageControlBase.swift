@@ -29,28 +29,48 @@ import UIKit
             switch contentMode {
                 
             case .center:
-                contentAlignment = JXPageControlAlignment(.center, .center)
+                contentAlignment = JXPageControlAlignment(.center,
+                                                          .center,
+                                                          .equalCenterSapcing)
             case .left:
-                contentAlignment = JXPageControlAlignment(.left, .center)
+                contentAlignment = JXPageControlAlignment(.left,
+                                                          .center,
+                                                          .equalCenterSapcing)
             case .right:
-                contentAlignment = JXPageControlAlignment(.right, .center)
+                contentAlignment = JXPageControlAlignment(.right,
+                                                          .center,
+                                                          .equalCenterSapcing)
                 
             case .bottom:
-                contentAlignment = JXPageControlAlignment(.center, .bottom)
+                contentAlignment = JXPageControlAlignment(.center,
+                                                          .bottom,
+                                                          .equalCenterSapcing)
             case .bottomLeft:
-                contentAlignment = JXPageControlAlignment(.left, .bottom)
+                contentAlignment = JXPageControlAlignment(.left,
+                                                          .bottom,
+                                                          .equalCenterSapcing)
             case .bottomRight:
-                contentAlignment = JXPageControlAlignment(.right, .bottom)
+                contentAlignment = JXPageControlAlignment(.right,
+                                                          .bottom,
+                                                          .equalCenterSapcing)
                 
             case .top:
-                contentAlignment = JXPageControlAlignment(.center, .top)
+                contentAlignment = JXPageControlAlignment(.center,
+                                                          .top,
+                                                          .equalCenterSapcing)
             case .topLeft:
-                contentAlignment = JXPageControlAlignment(.left, .top)
+                contentAlignment = JXPageControlAlignment(.left,
+                                                          .top,
+                                                          .equalCenterSapcing)
             case .topRight:
-                contentAlignment = JXPageControlAlignment(.right, .top)
+                contentAlignment = JXPageControlAlignment(.right,
+                                                          .top,
+                                                          .equalCenterSapcing)
                 
             default:
-                contentAlignment = JXPageControlAlignment(.center, .center)
+                contentAlignment = JXPageControlAlignment(.center,
+                                                          .center,
+                                                          .equalCenterSapcing)
             }
         }
     }
@@ -85,20 +105,20 @@ import UIKit
     
     /// Inactive item tint color
     @IBInspectable public var inactiveColor: UIColor =
-        UIColor.groupTableViewBackground.withAlphaComponent(0.5) {
+    UIColor.groupTableViewBackground.withAlphaComponent(0.5) {
         didSet { inactiveHollowLayout() }
     }
     
     /// Active item ting color
     @IBInspectable public var activeColor: UIColor =
-        UIColor.white {
+    UIColor.white {
         didSet { activeHollowLayout() }
     }
     
     /// Inactive item size
     @IBInspectable public var inactiveSize: CGSize =
-        CGSize(width: 10,
-               height: 10){
+    CGSize(width: 10,
+           height: 10){
         didSet {
             reloadLayout()
             updateProgress(CGFloat(currentIndex))
@@ -107,8 +127,8 @@ import UIKit
     
     /// Active item size
     @IBInspectable public var activeSize: CGSize =
-        CGSize(width: 10,
-               height: 10){
+    CGSize(width: 10,
+           height: 10){
         didSet {
             reloadLayout()
             updateProgress(CGFloat(currentIndex))
@@ -117,8 +137,8 @@ import UIKit
     
     /// Sets the color of all indicators
     @IBInspectable public var indicatorSize: CGSize =
-        CGSize(width: 10,
-               height: 10) {
+    CGSize(width: 10,
+           height: 10) {
         didSet {
             inactiveSize = indicatorSize
             activeSize = indicatorSize
@@ -145,8 +165,9 @@ import UIKit
     
     /// Content location
     public var contentAlignment: JXPageControlAlignment =
-        JXPageControlAlignment(.center,
-                               .center) {
+    JXPageControlAlignment(.center,
+                           .center,
+                           .equalCenterSapcing) {
         didSet { reloadLayout()
             updateProgress(CGFloat(currentIndex)) }
     }
@@ -194,7 +215,7 @@ import UIKit
     // MARK: - -------------------------- Reset --------------------------
     func resetHidden() {
         if hidesForSinglePage,
-            numberOfPages == 1 {
+           numberOfPages == 1 {
             contentView.isHidden = true
         }else if numberOfPages == 0 {
             contentView.isHidden = true
@@ -227,21 +248,21 @@ import UIKit
         minIndicatorSize.height = kMinItemHeight
         
         if activeSize.width >= inactiveSize.width,
-            activeSize.width > kMinItemWidth{
+           activeSize.width > kMinItemWidth{
             itemWidth = activeSize.width
             minIndicatorSize.width = inactiveSize.width
         } else if inactiveSize.width > activeSize.width,
-            inactiveSize.width > kMinItemWidth{
+                  inactiveSize.width > kMinItemWidth{
             itemWidth = inactiveSize.width
             minIndicatorSize.width = activeSize.width
         }
         
         if activeSize.height >= inactiveSize.height,
-            activeSize.height > kMinItemHeight{
+           activeSize.height > kMinItemHeight{
             itemHeight = activeSize.height
             minIndicatorSize.height = inactiveSize.height
         } else if inactiveSize.height > activeSize.height,
-            inactiveSize.height > kMinItemHeight{
+                  inactiveSize.height > kMinItemHeight{
             itemHeight = inactiveSize.height
             minIndicatorSize.height = activeSize.height
         }
@@ -251,7 +272,13 @@ import UIKit
         // Content Size and frame
         var x: CGFloat = 0
         var y: CGFloat = 0
-        let width = CGFloat(numberOfPages) * (itemWidth + columnSpacing) - columnSpacing
+        var width: CGFloat = 0
+        if contentAlignment.spacingType == .equalSpacing {
+            width = CGFloat((numberOfPages - 1)) * (minIndicatorSize.width + columnSpacing) + maxIndicatorSize.width
+        } else {
+            width = CGFloat(numberOfPages) * (itemWidth + columnSpacing) - columnSpacing
+        }
+        
         let height = itemHeight
         
         // Horizon layout

@@ -24,17 +24,28 @@ public class JXPageControlAlignment: NSObject {
         case bottom
     }
     
+    public enum JXPageControlSpacingType: Int {
+        /// 等间距
+        case equalSpacing
+        /// 中心点等间距
+        case equalCenterSapcing
+    }
+    
     var horizon: JXHorizonAlignment
     var vertical: JXVerticalAlignment
+    /// 间距类型
+    var spacingType: JXPageControlSpacingType
     
     public init(_ horizon: JXHorizonAlignment,
-         _ vertical: JXVerticalAlignment) {
+                _ vertical: JXVerticalAlignment,
+                _ spacingType: JXPageControlSpacingType) {
         self.horizon = horizon
         self.vertical = vertical
+        self.spacingType = spacingType;
     }
 }
 
-public protocol JXPageControlType {
+@objc public protocol JXPageControlType {
 
     /// Default is 0
     var numberOfPages: Int { get set }
@@ -77,7 +88,7 @@ public protocol JXPageControlType {
     
     /// Active hollow figure
     var isActiveHollow: Bool { get set }
-    
+        
     /// Refresh the data and UI again
     func reload()
 }

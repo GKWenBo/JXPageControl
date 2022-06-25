@@ -38,12 +38,12 @@ extension ScareVC: UIScrollViewDelegate {
         let currentPage = Int(round(progress))
         
         // 方式一
-        `default`.progress = progress
-        inactivehollow.progress = progress
-        allHollow.progress = progress
-        toSmall.progress = progress
-        toEllipe.progress = progress
-        toCircle.progress = progress
+//        `default`.progress = progress
+//        inactivehollow.progress = progress
+//        allHollow.progress = progress
+//        toSmall.progress = progress
+//        toEllipe.progress = progress
+//        toCircle.progress = progress
 
         
         // 方式二
@@ -51,7 +51,12 @@ extension ScareVC: UIScrollViewDelegate {
 //        inactivehollow.currentPage = currentPage
 //        allHollow.currentPage = currentPage
 //        toSmall.currentPage = currentPage
-//        toEllipe.currentPage = currentPage
+        if (scrollView.contentOffset.x > (scrollView.contentSize.width - scrollView.bounds.size.width) + 10) {
+            toEllipe.currentPage = 0
+        } else {
+            toEllipe.currentPage = currentPage
+        }
+        
 //        toCircle.currentPage = currentPage
         
         
