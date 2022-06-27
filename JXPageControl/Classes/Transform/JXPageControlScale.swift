@@ -35,7 +35,6 @@ import UIKit
             else { return }
 
         if contentAlignment.spacingType == .equalSpacing { /// 中心间距相等
-        
         } else {
             handleEqualCenterSpacing(progress)
         }
@@ -173,43 +172,40 @@ import UIKit
             let lastLayer = inactiveLayer[currentIndex]
             let newLayer = inactiveLayer[pageIndex]
             
-            var oldFrame = inactiveOriginFrame[currentIndex]
+            /// 上次选中
+            var oldFrame = lastLayer.frame
             if pageIndex < currentIndex {
                 oldFrame.origin.x += (activeSize.width - inactiveSize.width)
             }
             oldFrame.size.width = inactiveSize.width
-            inactiveOriginFrame[currentIndex] = oldFrame
             lastLayer.frame = oldFrame;
             hollowLayout(layer: lastLayer, isActive: false)
             
-            var newFrame = inactiveOriginFrame[pageIndex]
+            /// 当前选中
+            var newFrame = newLayer.frame
             if pageIndex > currentIndex {
                 newFrame.origin.x -= (activeSize.width - inactiveSize.width)
             }
             newFrame.size.width = activeSize.width
-            newLayer.frame = newFrame
-            inactiveOriginFrame[pageIndex] = newFrame
             newLayer.frame = newFrame
             hollowLayout(layer: newLayer, isActive: true)
             
             if pageIndex - currentIndex > 1 { /// 左边的时候到右边 越过点击
                 for index in (currentIndex + 1)..<pageIndex {
                     let layer = inactiveLayer[index]
-                    var frame = inactiveOriginFrame[index]
+                    var frame = layer.frame
                     frame.origin.x -= (activeSize.width - inactiveSize.width)
                     frame.size.width = inactiveSize.width
                     layer.frame = frame;
-                    inactiveOriginFrame[index] = frame
                     hollowLayout(layer: layer, isActive: false)
                 }
             } else if pageIndex - currentIndex < -1 { /// 右边选中到左边的时候 越过点击
                 for index in (pageIndex + 1)..<currentIndex  {
                     let layer = inactiveLayer[index]
-                    var frame = inactiveOriginFrame[index]
+                    var frame = layer.frame
                     frame.origin.x += (activeSize.width - inactiveSize.width)
                     frame.size.width = inactiveSize.width
                     layer.frame = frame;
-                    inactiveOriginFrame[index] = frame
                     hollowLayout(layer: layer, isActive: false)
                 }
             }
@@ -247,17 +243,17 @@ import UIKit
         } else {
             var isActive = false
             let x = 0.0
-            let y = (maxIndicatorSize.height - inactiveSize.height) * 0.5
+            let y = 0.0
             var layerFrame: CGRect = CGRect(x: x,
                                             y: y,
                                             width: 0,
                                             height: 0)
             for (index, layer) in inactiveLayer.enumerated() {
                 if index == currentIndex {
-                    let inactiveWidth = activeSize.width > kMinItemWidth ? activeSize.width : kMinItemWidth;
-                    let inactiveHeight = activeSize.height > kMinItemHeight ? activeSize.height : kMinItemHeight;
-                    layerFrame.size.width = inactiveWidth
-                    layerFrame.size.height = inactiveHeight
+                    let activeWidth = activeSize.width > kMinItemWidth ? activeSize.width : kMinItemWidth;
+                    let activeHeight = activeSize.height > kMinItemHeight ? activeSize.height : kMinItemHeight;
+                    layerFrame.size.width = activeWidth
+                    layerFrame.size.height = activeHeight
                     isActive = true
                 } else {
                     let inactiveWidth = inactiveSize.width > kMinItemWidth ? inactiveSize.width : kMinItemWidth;
